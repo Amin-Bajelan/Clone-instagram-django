@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لیست کاربران</title>
+    <link rel="stylesheet" href="{% static "user/style.css" %}">
+</head>
+<body>
+    <div class="back-button-container">
+        <button class="back-button"><a href="{% url "index" %}">Back</a></button>
+    </div>
+
+    {% for i in users %}
+    <div class="user-list">
+        <div class="user">
+            <img src="{{ i.profile_picture.url }}" alt="Profile" class="profile-pic">
+            <span class="username">{{ i.username }}</span>
+        </div>
+    </div>
+    {% endfor %}
+
+
+</body>
+</html>

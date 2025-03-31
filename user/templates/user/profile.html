@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Profile</title>
+    <link rel="stylesheet" href="{% static "user/style_profile.css" %}">
+</head>
+
+<body>
+    <button type="button"><a href="{% url "index" %}">Back</a></button>
+    <div class="profile-container">
+        <img class="profile-pic" src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}{% static "user/Default_pfp.jpg" %}{% endif %}" alt="Profile Picture">
+        <h1 class="username">{{ user.username }}</h1>
+        <div class="stats">
+            <div>
+                <span class="number">100</span>
+                <span>Posts</span>
+            </div>
+            <div>
+                <span class="number">{{ user.followers }}</span>
+                <span>Followers</span>
+            </div>
+            <div>
+                <span class="number">{{ user.following }}</span>
+                <span>Following</span>
+            </div>
+        </div>
+        <p class="bio">{{ user.bio }}</p>
+    </div>
+</body>
+</html>

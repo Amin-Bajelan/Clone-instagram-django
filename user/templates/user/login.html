@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static "user/style.css" %}">
+</head>
+<body>
+
+    {% for message in messages %}
+        <li class="{{ message.tags }}">{{ message }}</li>
+        <hr>
+    {% endfor %}
+
+    <form method="post">
+        {% csrf_token %}
+        <label for="username">Please enter your username or email:</label>
+        <input id="username" name="username" type="text">
+    <br>
+        <label for="password">Please enter your Password:</label>
+        <input id="password" name="password" type="password">
+    <br>
+        <button type="submit">Submit</button>
+
+    </form>
+
+</body>
+</html>

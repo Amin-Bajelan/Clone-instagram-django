@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Main Page</title>
+    <link rel="stylesheet" href="{% static "user/style.css" %}">
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+    <div class="search-container">
+        <input type="text" name="search_input" placeholder="Search username....">
+        <button type="submit">Search</button>
+    </div>
+    </form>
+
+
+    {% if user == 'katsuhero' %}
+        <p>you not logged in</p>
+        <button type="button"><a href="{% url "login" %}">Login</a></button>
+    {% else %}
+        <p>username: {{ user }}</p>
+        <button type="button"><a href="{% url "logout" %}">Logout</a></button>
+        <button type="button"><a href="{% url "edit_profile" %}">Edit profile</a></button>
+        <button type="button"><a href="{% url "profile" %}">Profile</a></button>
+    {% endif %}
+
+
+
+
+        <h1>Welcome {{ user }}</h1>
+
+</body>
+</html>
