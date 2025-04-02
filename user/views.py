@@ -89,7 +89,6 @@ def logout(request):
     global user
     account_owner = ''
     user = 'katsuhero'
-    # logout(request)
     request.session.flush()
     messages.success(request, 'You Logged out successfully')
     return redirect('first_page')
@@ -148,3 +147,26 @@ def add_post(request):
 
     form = AddPostForm()
     return render(request,"user/add_post.html", {'form': form})
+
+
+def show_user_profiles(request,user_id):
+    user_info = UserProfile.objects.get(id=user_id)
+    posts = Post.objects.filter(user=user_id)
+    return render(request, 'user/profile.html',locals())
+
+
+def like_post(request,post_id):
+    global user
+    global account_owner
+    print(account_owner)
+    post = Post.objects.get(id=post_id)
+    if account_owner in post.liked_by.all():
+        post.liked_by.remove(account_owner)
+        post.likes -= 1
+    else:
+        post.liked_by.add(account_owner)
+        post.likes += 1
+
+    post.save()
+    print(post.likes)
+    return redirect('profile')

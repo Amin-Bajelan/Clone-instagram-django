@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لیست کاربران</title>
+    <title>list users</title>
     <link rel="stylesheet" href="{% static "user/style.css" %}">
 </head>
 <body>
@@ -16,7 +16,7 @@
     <div class="user-list">
         <div class="user">
             <img src="{% if i.profile_picture %}{{ i.profile_picture.url }}{% else %}{% static "user/Default_pfp.jpg" %}{% endif %}" alt="Profile" class="profile-pic">
-            <span class="username">{{ i.username }}</span>
+            <span class="username"><a href="{% url "show_user_profiles" i.id %}">{{ i.username }}</a></span>
         </div>
     </div>
     {% endfor %}

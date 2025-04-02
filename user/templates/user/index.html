@@ -19,18 +19,21 @@
     {% if user == 'katsuhero' %}
         <p>you not logged in</p>
         <button type="button"><a href="{% url "login" %}">Login</a></button>
+        <button type="button"><a href="{% url "signup" %}">Sign up</a></button>
+        <h1>You must log in or signup to see options...</h1>
     {% else %}
         <p>username: {{ user }}</p>
         <button type="button"><a href="{% url "logout" %}">Logout</a></button>
         <button type="button"><a href="{% url "edit_profile" %}">Edit profile</a></button>
         <button type="button"><a href="{% url "profile" %}">Profile</a></button>
         <button type="button"><a href="{% url "add_post" %}">Add Post</a></button>
+        <h1>Welcome {{ user }}</h1>
     {% endif %}
 
 
 
 
-        <h1>Welcome {{ user }}</h1>
+
 
 </body>
 </html>

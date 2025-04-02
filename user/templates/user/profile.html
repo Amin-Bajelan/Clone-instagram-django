@@ -12,58 +12,66 @@
     <button type="button"><a href="{% url "index" %}">Back</a></button>
 
     <div class="profile-container">
-        <img class="profile-pic" src="{% if user.profile_picture %}{{ user.profile_picture.url }}
+        <img class="profile-pic" src="{% if user_info.profile_picture %}{{ user_info.profile_picture.url }}
         {% else %}{% static "user/Default_pfp.jpg" %}{% endif %}" alt="Profile Picture">
-        <h1 class="username">{{ user.username }}</h1>
+        <h1 class="username">{{ user_info.username }}</h1>
         <div class="stats">
             <div>
                 <span class="number">100</span>
                 <span>Posts</span>
             </div>
             <div>
-                <span class="number">{{ user.followers }}</span>
+                <span class="number">{{ user_info.followers }}</span>
                 <span>Followers</span>
             </div>
             <div>
-                <span class="number">{{ user.following }}</span>
+                <span class="number">{{ user_info.following }}</span>
                 <span>Following</span>
             </div>
         </div>
-        <p class="bio">{{ user.bio }}</p>
+        <p class="bio">{{ user_info.bio }}</p>
     </div>
-
-
 
     <div class="posts-container">
 
         {% for i in posts %}
         <div class="post-box">
+            <!-- Header: Profile Picture and Username -->
             <div class="post-header">
-                <img src="{% if user.profile_picture %}{{ user.profile_picture.url }}
+                <img src="{% if user_info.profile_picture %}{{ user_info.profile_picture.url }}
                 {% else %}{% static "user/Default_pfp.jpg" %}{% endif %}" alt="Profile Picture" class="profile-picture">
-                <span class="username">{{ user.username }}</span>
+                <span class="username">{{ user_info.username }}</span>
             </div>
 
+            <!-- Post Image -->
             <div class="post-image">
                 <img src="{{ i.image.url }}" alt="Post Image">
             </div>
 
+            <!-- Caption Section -->
             <div class="post-caption">
                 <p>{{ i.caption }}</p>
             </div>
 
-
+            <!-- Footer: Like and Comment Buttons -->
             <div class="post-footer">
                 <button class="like-button">
-                    <span class="like-icon">❤️</span> Like
+                    <a href="{% url 'like_post' i.id %}">
+                        {% if user_info in i.liked_by.all %}
+                            <span class="like-icon">💔</span> Unlike
+                    {% else %}
+                            <span class="like-icon">❤️</span> Like
+                    {% endif %}
+
+                        </a>
                 </button>
-                <button class="comment-button">💬 Comment</button>
+                <button class="comment-toggle-button">💬 Add Comment</button>
             </div>
 
-
+            <!-- Comment Section -->
             <div class="post-comments">
                 <ul class="comments-list">
-                    {% for comment in post.comments %}
+                    {% for comment in i.comments %}
                     <li><strong>{{ comment.user }}</strong>: {{ comment.text }}</li>
                     {% endfor %}
                 </ul>
@@ -75,7 +83,6 @@
         </div>
         {% endfor %}
     </div>
-
 
 </body>
 </html>

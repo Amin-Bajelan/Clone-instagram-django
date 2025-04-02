@@ -18,13 +18,14 @@ class UserProfile(models.Model):
     post_count = models.PositiveIntegerField(default=0)
 
     def __str__(self):
-        return f"{self.username} {self.email} {self.password} {self.date_joined}"
+        return f"{self.username} {self.email} {self.password}"
 
 
 class Post(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='posts/', blank=False, null=False)
     likes = models.PositiveIntegerField(default=0)
+    liked_by = models.ManyToManyField(UserProfile, blank=True,related_name='liked_posts')
     caption = models.TextField(max_length=200, blank=True, null=True)
     date_posted = models.DateTimeField(auto_now_add=True)
     def __str__(self):
