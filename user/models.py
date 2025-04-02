@@ -1,4 +1,7 @@
+from datetime import timezone
+
 from django.db import models
+from datetime import datetime
 
 
 # Create your models here.
@@ -20,10 +23,10 @@ class UserProfile(models.Model):
 
 class Post(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='posts/')
+    image = models.ImageField(upload_to='posts/', blank=False, null=False)
     likes = models.PositiveIntegerField(default=0)
-    caption = models.TextField(blank=True, null=True)
-
+    caption = models.TextField(max_length=200, blank=True, null=True)
+    date_posted = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return f"{self.user} {self.likes} "
 

@@ -1,0 +1,208 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: darkslateblue;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+}
+a{
+    color: dodgerblue;
+}
+
+button {
+    background-color: #464646;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #46424d;
+    transform: scale(1.05);
+}
+
+.profile-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;
+    margin-bottom: 40px;
+}
+
+.profile-pic {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.username {
+    font-size: 24px;
+    margin: 10px 0;
+}
+.stats {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+.stats div {
+    text-align: center;
+}
+
+.number {
+    font-weight: bold;
+    font-size: 18px;
+    color: #333;
+}
+
+.bio {
+    font-size: 14px;
+    color: #666;
+}
+
+
+
+
+
+
+.posts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* کاهش فاصله بین باکس‌ها */
+}
+
+/* Individual Post Box */
+.post-box {
+    max-width: 600px; /* کاهش عرض باکس */
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+}
+
+/* Header: Profile Picture and Username */
+.post-header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.profile-picture {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.username {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Post Image */
+.post-image img {
+    width: 100%;
+    max-height: 400px; /* کنترل ارتفاع تصویر */
+    display: block;
+    object-fit: contain; /* جلوگیری از تغییر اندازه تصویر درون باکس */
+}
+
+/* Caption Section */
+.post-caption {
+    padding: 10px;
+    font-size: 16px;
+    color: #555;
+}
+
+/* Footer: Like and Comment Buttons */
+.post-footer {
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.like-button, .comment-button {
+    background-color: white;
+    border: none;
+    color: #e0245e;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 8px 15px;
+}
+
+.like-icon, .comment-button {
+    margin-right: 8px;
+    font-size: 20px;
+}
+
+.like-button:hover {
+    color: #c30d45;
+}
+
+.comment-button:hover {
+    color: #007bff;
+}
+
+/* Comments Section */
+.post-comments {
+    padding: 10px;
+    border-top: 1px solid #ddd;
+}
+
+.comments-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0 0 10px 0;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.comments-list li {
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.comment-form {
+    display: flex;
+    gap: 10px;
+}
+
+.comment-form input[type="text"] {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.comment-form button {
+    background-color: #e0245e;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.comment-form button:hover {
+    background-color: #c30d45;
+}

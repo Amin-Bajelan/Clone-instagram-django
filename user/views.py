@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .models import UserProfile
+from .models import UserProfile,Post
 from django.contrib.auth import logout, login
-from .forms import UserForm, ProfileEditForm
+from .forms import UserForm, ProfileEditForm,AddPostForm
 
 # Create your views here.
 account_owner = ''
@@ -11,12 +11,11 @@ user = ''
 
 def index(request):
     global user
-
     if request.method == 'POST':
         value_input_search = request.POST.get('search_input')
         all_users = UserProfile.objects.filter(username__icontains=value_input_search)
-        for user in all_users:
-            print(user.username)
+        for i in all_users:
+            print(i.username)
         return render(request, 'user/show_profiles.html', {'users': all_users})
 
     return render(request, 'user/index.html', {'user': user})
@@ -98,8 +97,10 @@ def logout(request):
 
 def profile(request):
     global user
+    global account_owner
     user_info = UserProfile.objects.get(username=user)
-    return render(request, 'user/profile.html', {'user': user_info})
+    posts = Post.objects.filter(user=account_owner)
+    return render(request, 'user/profile.html', locals())
 
 
 def edit_profile(request):
@@ -128,5 +129,22 @@ def edit_profile(request):
     return render(request, "user/edit_profile.html", {'form': form})
 
 
-def show_profiles(request):
-    pass
+def add_post(request):
+    global user
+    global account_owner
+    if request.method == 'POST':
+            print('hello')
+            form = AddPostForm(request.POST, request.FILES)
+            if form.is_valid():
+                print('world')
+                image = form.cleaned_data['image']
+                caption = form.cleaned_data['caption']
+                print(caption)
+                object_post = Post.objects.create(user=account_owner, image=image, caption=caption)
+                print(object_post)
+                object_post.save()
+                return redirect('index')
+
+
+    form = AddPostForm()
+    return render(request,"user/add_post.html", {'form': form})

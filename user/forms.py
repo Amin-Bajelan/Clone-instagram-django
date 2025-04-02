@@ -1,5 +1,5 @@
 from django import forms
-from .models import UserProfile
+from .models import UserProfile, Post
 
 
 class UserForm(forms.ModelForm):
@@ -15,3 +15,8 @@ class ProfileEditForm(forms.ModelForm):
         model = UserProfile
         fields = ['password', 'bio', 'profile_picture']
 
+
+class AddPostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['image', 'caption']

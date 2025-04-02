@@ -5,13 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instagram Profile</title>
-    <link rel="stylesheet" href="{% static "user/style_profile.css" %}">
+    <link rel="stylesheet" href="{% static "user/style_post.css" %}">
 </head>
 
 <body>
     <button type="button"><a href="{% url "index" %}">Back</a></button>
+
     <div class="profile-container">
-        <img class="profile-pic" src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}{% static "user/Default_pfp.jpg" %}{% endif %}" alt="Profile Picture">
+        <img class="profile-pic" src="{% if user.profile_picture %}{{ user.profile_picture.url }}
+        {% else %}{% static "user/Default_pfp.jpg" %}{% endif %}" alt="Profile Picture">
         <h1 class="username">{{ user.username }}</h1>
         <div class="stats">
             <div>
@@ -29,5 +31,51 @@
         </div>
         <p class="bio">{{ user.bio }}</p>
     </div>
+
+
+
+    <div class="posts-container">
+
+        {% for i in posts %}
+        <div class="post-box">
+            <div class="post-header">
+                <img src="{% if user.profile_picture %}{{ user.profile_picture.url }}
+                {% else %}{% static "user/Default_pfp.jpg" %}{% endif %}" alt="Profile Picture" class="profile-picture">
+                <span class="username">{{ user.username }}</span>
+            </div>
+
+            <div class="post-image">
+                <img src="{{ i.image.url }}" alt="Post Image">
+            </div>
+
+            <div class="post-caption">
+                <p>{{ i.caption }}</p>
+            </div>
+
+
+            <div class="post-footer">
+                <button class="like-button">
+                    <span class="like-icon">❤️</span> Like
+                </button>
+                <button class="comment-button">💬 Comment</button>
+            </div>
+
+
+            <div class="post-comments">
+                <ul class="comments-list">
+                    {% for comment in post.comments %}
+                    <li><strong>{{ comment.user }}</strong>: {{ comment.text }}</li>
+                    {% endfor %}
+                </ul>
+                <form method="POST" class="comment-form">
+                    <input type="text" name="comment" placeholder="Write a comment..." required>
+                    <button type="submit">Post</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
 </body>
 </html>

@@ -11,35 +11,24 @@ a{
 button{
             display: inline;
         }
-        input[type="text"] {
-            border: none;
-            outline: none;
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 25px;
-            width: 300px;
-        }
 
-        button {
-            border: none;
-            background-color: #464646;
-            color: white;
-            padding: 10px 15px;
-            margin-left: 10px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 25px;
-            transition: background-color 0.3s;
-        }
 
-         button:hover {
-            background-color: #46424d;
-        }
-body {
-    font-family: Arial, sans-serif;
-    background-color: #fafafa;
-    text-align: center;
+button {
+    border: none;
+    background-color: #464646;
+    color: white;
+    padding: 10px 15px;
+    margin-left: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 25px;
+    transition: background-color 0.3s;
 }
+
+button:hover {
+    background-color: #46424d;
+}
+
 
 .search-container {
     margin: 20px auto;
@@ -80,4 +69,18 @@ body {
 .username {
     font-size: 18px;
     font-weight: bold;
+}
+
+.profile-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+
+}
+
+.username {
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #efefef;
 }
