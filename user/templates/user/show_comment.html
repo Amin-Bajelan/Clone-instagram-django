@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show comments</title>
+    <link rel="stylesheet" href="{% static "user/style_comment.css" %}">
+</head>
+<body>
+    <button type="button"><a href="{% url "profile" %}">Back</a></button>
+    <div class="comments-container">
+        {% for comment in comments %}
+        <div class="comment">
+            <img class="user-photo" src="{% if comment.user.profile_picture %}{{ comment.user.profile_picture.url }}
+                {% else %}{% static "user/Default_pfp.jpg" %}{% endif %}" alt="User photo">
+            <div class="comment-details">
+                <span class="user-name">{{ comment.user.username }}</span>
+                <p class="comment-text">{{ comment.text }}</p>
+                <span class="comment-date">{{ comment.date_created }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .models import UserProfile,Post
+from .models import UserProfile, Post, Comment
 from django.contrib.auth import logout, login
-from .forms import UserForm, ProfileEditForm,AddPostForm
+from .forms import UserForm, ProfileEditForm, AddPostForm
 
 # Create your views here.
 account_owner = ''
@@ -10,6 +10,8 @@ user = ''
 
 
 def index(request):
+    my_user = request.user
+
     global user
     if request.method == 'POST':
         value_input_search = request.POST.get('search_input')
@@ -132,33 +134,31 @@ def add_post(request):
     global user
     global account_owner
     if request.method == 'POST':
-            print('hello')
-            form = AddPostForm(request.POST, request.FILES)
-            if form.is_valid():
-                print('world')
-                image = form.cleaned_data['image']
-                caption = form.cleaned_data['caption']
-                print(caption)
-                object_post = Post.objects.create(user=account_owner, image=image, caption=caption)
-                print(object_post)
-                object_post.save()
-                return redirect('index')
-
+        print('hello')
+        form = AddPostForm(request.POST, request.FILES)
+        if form.is_valid():
+            print('world')
+            image = form.cleaned_data['image']
+            caption = form.cleaned_data['caption']
+            print(caption)
+            object_post = Post.objects.create(user=account_owner, image=image, caption=caption)
+            print(object_post)
+            object_post.save()
+            return redirect('index')
 
     form = AddPostForm()
-    return render(request,"user/add_post.html", {'form': form})
+    return render(request, "user/add_post.html", {'form': form})
 
 
-def show_user_profiles(request,user_id):
+def show_user_profiles(request, user_id):
     user_info = UserProfile.objects.get(id=user_id)
     posts = Post.objects.filter(user=user_id)
-    return render(request, 'user/profile.html',locals())
+    return render(request, 'user/profile.html', locals())
 
 
-def like_post(request,post_id):
+def like_post(request, post_id):
     global user
     global account_owner
-    print(account_owner)
     post = Post.objects.get(id=post_id)
     if account_owner in post.liked_by.all():
         post.liked_by.remove(account_owner)
@@ -170,3 +170,21 @@ def like_post(request,post_id):
     post.save()
     print(post.likes)
     return redirect('profile')
+
+
+def comment_post(request, post_id):
+    global user
+    global account_owner
+    user_comment = request.POST.get('comment')
+    post = Post.objects.get(id=post_id)
+    comment = Comment.objects.create(user=account_owner, post=post, text=user_comment)
+    print(comment)
+    comment.save()
+    return redirect('profile')
+
+
+def show_comments(request, post_id):
+    comments = Comment.objects.filter(post_id=post_id)
+    for comment in comments:
+        print(comment.text)
+    return render(request, 'user/show_comment.html',{'comments':comments})

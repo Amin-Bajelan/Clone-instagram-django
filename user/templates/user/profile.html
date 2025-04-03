@@ -65,7 +65,7 @@
 
                         </a>
                 </button>
-                <button class="comment-toggle-button">💬 Add Comment</button>
+                <button class="comment-toggle-button"><a href="{% url "show_comments" i.id %}">💬Comments</a></button>
             </div>
 
             <!-- Comment Section -->
@@ -75,7 +75,8 @@
                     <li><strong>{{ comment.user }}</strong>: {{ comment.text }}</li>
                     {% endfor %}
                 </ul>
-                <form method="POST" class="comment-form">
+                <form method="POST" class="comment-form" action="{% url "comment_post" i.id %}">
+                    {% csrf_token %}
                     <input type="text" name="comment" placeholder="Write a comment..." required>
                     <button type="submit">Post</button>
                 </form>
