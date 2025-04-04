@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static "user/style_message.css" %}">
+    <title>Follow Request</title>
+</head>
+<body>
+    <button><a href="{% url "index" %}"></a></button>
+    {% if messages %}
+    {% for message in messages %}
+    <div class="follow-request">
+        <form method="post">
+        {% csrf_token %}
+        <img src="{% if message.sender.profile_picture %}{{ message.sender.profile_picture.url }}
+                {% else %}{% static "user/Default_pfp.jpg" %}{% endif %}" alt="User Image" class="profile-pic">
+        <div class="user-info">
+            <p class="user-name">{{ message.sender.username }}</p>
+            <div class="buttons">
+                <button class="accept-btn"><a href="{% url "create_follow_user" message.id %}">Accept</a></button>
+                <button name="btn" class="reject-btn"><a href="{% url "delete_follow_user" message.id %}">Reject</a></button>
+            </div>
+        </div>
+    </div>
+        </form>
+
+    {% endfor %}
+    {% else %}
+        <h2>You have no message to show...</h2>
+    {% endif %}
+</body>
+</html>

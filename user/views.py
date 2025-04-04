@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .models import UserProfile, Post, Comment
+from .models import UserProfile, Post, Comment, Follow, FollowRequest
 from django.contrib.auth import logout, login
 from .forms import UserForm, ProfileEditForm, AddPostForm
 
@@ -99,7 +99,14 @@ def logout(request):
 def profile(request):
     global user
     global account_owner
+
     user_info = UserProfile.objects.get(username=user)
+    if user == user_info.username:
+        my_account = True
+    else:
+        my_account = False
+
+    print(my_account)
     posts = Post.objects.filter(user=account_owner)
     return render(request, 'user/profile.html', locals())
 
@@ -187,4 +194,43 @@ def show_comments(request, post_id):
     comments = Comment.objects.filter(post_id=post_id)
     for comment in comments:
         print(comment.text)
-    return render(request, 'user/show_comment.html',{'comments':comments})
+    return render(request, 'user/show_comment.html', {'comments': comments})
+
+
+def create_follow_user(request, message_id):
+    request_follow = FollowRequest.objects.get(id=message_id)
+    sender_follow = request_follow.sender
+    receiver_follow = request_follow.receiver
+    sender_follow.following += 1
+    receiver_follow.following += 1
+
+    print(sender_follow.following)
+    print(receiver_follow.following)
+    print(sender_follow)
+    print(receiver_follow)
+    obj_follow = Follow.objects.create(follower=sender_follow, following=receiver_follow)
+    obj_follow.save()
+    sender_follow.save()
+    receiver_follow.save()
+    request_follow.delete()
+    return redirect('show_follow_request')
+
+
+def delete_follow_user(request, message_id):
+    request_follow = FollowRequest.objects.get(id=message_id)
+    request_follow.delete()
+    return redirect('show_follow_request')
+
+
+def show_follow_request(request):
+    global account_owner
+    messages = FollowRequest.objects.filter(receiver=account_owner)
+    return render(request, 'user/show_messages.html', locals())
+
+
+def follow_user_request(request, user_id):
+    global account_owner
+    user_sender = UserProfile.objects.get(id=user_id)
+    object_request = FollowRequest.objects.create(sender=account_owner, receiver=user_sender)
+    object_request.save()
+    return redirect('index')

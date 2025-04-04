@@ -13,7 +13,7 @@ class UserForm(forms.ModelForm):
 class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['password', 'bio', 'profile_picture']
+        fields = ['password', 'bio', 'profile_picture', 'is_private']
 
 
 class AddPostForm(forms.ModelForm):

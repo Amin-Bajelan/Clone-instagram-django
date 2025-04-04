@@ -28,10 +28,16 @@
                 <span class="number">{{ user_info.following }}</span>
                 <span>Following</span>
             </div>
+            {% if my_account %}
+                <button disabled style="cursor: not-allowed;">Follow</button>
+            {% else %}
+                <button><a href="{% url "follow_user_request" user_info.id %}">Follow</a></button>
+            {% endif %}
         </div>
         <p class="bio">{{ user_info.bio }}</p>
     </div>
 
+    {% if not user_info.is_private %}
     <div class="posts-container">
 
         {% for i in posts %}
@@ -84,6 +90,9 @@
         </div>
         {% endfor %}
     </div>
+    {% else %}
+        <h2>This account is private you should follow at first...</h2>
+    {% endif %}
 
 </body>
 </html>
