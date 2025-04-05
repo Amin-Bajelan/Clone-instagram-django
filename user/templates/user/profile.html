@@ -17,7 +17,7 @@
         <h1 class="username">{{ user_info.username }}</h1>
         <div class="stats">
             <div>
-                <span class="number">100</span>
+                <span class="number">{{ user_info.post_count }}</span>
                 <span>Posts</span>
             </div>
             <div>
@@ -37,9 +37,9 @@
         <p class="bio">{{ user_info.bio }}</p>
     </div>
 
-    {% if not user_info.is_private %}
+    {% if show_posts %}
     <div class="posts-container">
-
+         <button><a href="{% url "show_follow" user_info.id %}">my Follower and Following</a></button>
         {% for i in posts %}
         <div class="post-box">
             <!-- Header: Profile Picture and Username -->

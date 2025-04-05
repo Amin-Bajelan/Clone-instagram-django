@@ -99,15 +99,10 @@ def logout(request):
 def profile(request):
     global user
     global account_owner
-
     user_info = UserProfile.objects.get(username=user)
-    if user == user_info.username:
-        my_account = True
-    else:
-        my_account = False
-
-    print(my_account)
     posts = Post.objects.filter(user=account_owner)
+    show_posts = True
+    my_account = True
     return render(request, 'user/profile.html', locals())
 
 
@@ -141,25 +136,43 @@ def add_post(request):
     global user
     global account_owner
     if request.method == 'POST':
-        print('hello')
         form = AddPostForm(request.POST, request.FILES)
         if form.is_valid():
-            print('world')
             image = form.cleaned_data['image']
             caption = form.cleaned_data['caption']
             print(caption)
             object_post = Post.objects.create(user=account_owner, image=image, caption=caption)
             print(object_post)
             object_post.save()
+            obj_user = UserProfile.objects.get(username=user)
+            obj_user.post_count += 1
             return redirect('index')
 
     form = AddPostForm()
     return render(request, "user/add_post.html", {'form': form})
 
 
+# for when you search for user and click on username
 def show_user_profiles(request, user_id):
+    global account_owner
+    global user
     user_info = UserProfile.objects.get(id=user_id)
     posts = Post.objects.filter(user=user_id)
+
+    object_follow = Follow.objects.filter(follower=account_owner)
+    show_posts = False
+    my_account = False
+    if account_owner == user_info:
+        show_posts = True
+        my_account = True
+    elif user_info.is_private == False:
+        show_posts = True
+    else:
+        for i in object_follow:
+            if i.following == user_info:
+                show_posts = True
+                my_account = True
+
     return render(request, 'user/profile.html', locals())
 
 
@@ -197,17 +210,15 @@ def show_comments(request, post_id):
     return render(request, 'user/show_comment.html', {'comments': comments})
 
 
+# accept user follow request
 def create_follow_user(request, message_id):
     request_follow = FollowRequest.objects.get(id=message_id)
     sender_follow = request_follow.sender
     receiver_follow = request_follow.receiver
     sender_follow.following += 1
-    receiver_follow.following += 1
-
     print(sender_follow.following)
+    receiver_follow.followers += 1
     print(receiver_follow.following)
-    print(sender_follow)
-    print(receiver_follow)
     obj_follow = Follow.objects.create(follower=sender_follow, following=receiver_follow)
     obj_follow.save()
     sender_follow.save()
@@ -216,12 +227,14 @@ def create_follow_user(request, message_id):
     return redirect('show_follow_request')
 
 
+# reject follow request
 def delete_follow_user(request, message_id):
     request_follow = FollowRequest.objects.get(id=message_id)
     request_follow.delete()
     return redirect('show_follow_request')
 
 
+# for show message on messages on index page
 def show_follow_request(request):
     global account_owner
     messages = FollowRequest.objects.filter(receiver=account_owner)
@@ -234,3 +247,12 @@ def follow_user_request(request, user_id):
     object_request = FollowRequest.objects.create(sender=account_owner, receiver=user_sender)
     object_request.save()
     return redirect('index')
+
+def show_follow(request,user_id):
+    user_info = UserProfile.objects.get(id=user_id)
+    followers = Follow.objects.filter(follower=user_info)
+    followings = Follow.objects.filter(following=user_info)
+    for i in followers:
+        print(i.following.username)
+    return render(request,'user/show_follows.html',locals())
+

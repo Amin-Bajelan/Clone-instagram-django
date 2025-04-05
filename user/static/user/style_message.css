@@ -74,3 +74,19 @@ body {
 a{
     text-decoration: none;
 }
+button {
+    background-color: #464646;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #46424d;
+    transform: scale(1.05);
+}

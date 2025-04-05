@@ -19,4 +19,6 @@ urlpatterns = [
     path('show_follow_request', views.show_follow_request, name='show_follow_request'),
     path('follow_user_request/<int:user_id>', views.follow_user_request, name='follow_user_request'),
 
+    path('show_follow/<int:user_id>', views.show_follow, name='show_follow'),
+
 ]

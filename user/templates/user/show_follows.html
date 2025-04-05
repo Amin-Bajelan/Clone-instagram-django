@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show follows</title>
+    <link rel="stylesheet" href="{% static "user/style_show_follows.css" %}">
+</head>
+<style>
+</style>
+<body>
+    <button onclick="window.history.back()" class="back-button">Back</button>
+    <br>
+    <br>
+    <h2>Follower:</h2>
+    {% for i in followings %}
+        <div class="profiles-container">
+            <div class="profile-box">
+                <img src="{% if i.follower.profile_picture %}{{ i.follower.profile_picture.url }}
+        {% else %}{% static "user/Default_pfp.jpg" %}{% endif %}" class="profile-image">
+                <h1 class="profile-name">{{ i.follower.username }}</h1>
+                <button class="delete-button">Remove</button>
+            </div>
+        </div>
+    {% endfor %}
+
+    <h2>Following:</h2>
+    {% for i in followers %}
+        <div class="profiles-container">
+            <div class="profile-box">
+                <img src="{% if i.following.profile_picture %}{{ i.following.profile_picture.url }}
+        {% else %}{% static "user/Default_pfp.jpg" %}{% endif %}" class="profile-image">
+                <h1 class="profile-name">{{ i.following.username }}</h1>
+                <button class="delete-button">Remove</button>
+            </div>
+        </div>
+    {% endfor %}
+
+
+</body>
+</html>
